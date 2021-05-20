@@ -12,9 +12,14 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index(){
+        
+        $posts = Post::all();
+
+        $data = [
+            'posts'=>$posts
+        ];
+        return view('guest.posts.index',$data);
     }
 
     /**
