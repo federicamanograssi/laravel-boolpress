@@ -18,8 +18,20 @@ Route::get('/', function () {
     return view('guest.home');
 });
 
-Route::get('/posts','PostController@index');
-Route::get('/posts/{slug}','PostController@show')->name('posts_show');
+// Route::get('/posts','PostController@index');
+// Route::get('/posts/{slug}','PostController@show')->name('posts_show');
+
+Route::prefix('posts')
+    ->group(function(){
+        Route::get('/','PostController@index');
+        Route::get('/{slug}','PostController@show')->name('posts_show');
+    });
+
+Route::prefix('categories')
+    ->group(function(){
+        Route::get('/','CategoryController@index');
+        Route::get('/{slug}','CategoryController@show')->name('category_show');
+});
 
 
 Auth::routes();
