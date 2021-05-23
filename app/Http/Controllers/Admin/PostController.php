@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Post;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -30,7 +31,10 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $data = [
+            'tags'=> Tag::all()
+        ];
+        return view('admin.posts.create',$data);
     }
 
     /**
@@ -66,6 +70,12 @@ class PostController extends Controller
 
         $new_post->user_id= Auth::id();
         $new_post->save();
+
+        // creare dati per pivot
+        // verifico se ci sono tag
+        if(array_key_exists('tags',$form_data)){
+            $new_post->tags()->sync($form_data['tags']);
+        };
         return redirect()->route('posts.index');
 
     }
