@@ -87,9 +87,17 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        if(!$post){
+            abort(404);
+        };
+
+        $data = [
+            'post'=>$post
+        ];
+
+        return view('admin.posts.edit',$data);
     }
 
     /**
