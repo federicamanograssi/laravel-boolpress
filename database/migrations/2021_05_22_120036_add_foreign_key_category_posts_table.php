@@ -15,7 +15,7 @@ class AddForeignKeyCategoryPostsTable extends Migration
     {
         Schema::table('posts',function (Blueprint $table)
         {
-            $table->unsignedBigInteger('category_id')->nullable;
+            $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')
                 ->references('id')
                 ->on('categories');

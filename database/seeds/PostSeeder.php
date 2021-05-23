@@ -34,6 +34,7 @@ class PostSeeder extends Seeder
             //___________
             $new_post->slug=$slug;
             $new_post->user_id=rand(1,3);
+            $new_post->category_id=rand(1,4);
             $new_post->save();
         };
         
