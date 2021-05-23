@@ -107,9 +107,34 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $request->validate([
+            'title'=>'required|max:255',
+            'content'=>'required'
+        ]);
+
+        $form_data=$request->all();
+
+        // verifico se titolo diverso da vecchio x rifare slug
+
+        if($form_data['title'] != $post->title){
+            $slug=Str::slug($form_data['title']);
+            $base_slug=$slug;
+            $old_post=Post::where('slug',$slug)->first();
+            $slug_counter=1;
+
+            while($old_post){
+                $slug= $base_slug.'-'.$slug_counter;
+                $slug_counter++;
+                $old_post=Post::where('slug',$slug)->first();
+            }
+            $form_data['slug']=$slug;
+        }
+        
+        $post->update($form_data);
+
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -118,8 +143,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->route('posts.index');
     }
 }
