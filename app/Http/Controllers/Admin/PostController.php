@@ -104,7 +104,8 @@ class PostController extends Controller
         };
 
         $data = [
-            'post'=>$post
+            'post'=>$post,
+            'tags'=>Tag::all()
         ];
 
         return view('admin.posts.edit',$data);
@@ -141,6 +142,9 @@ class PostController extends Controller
             }
             $form_data['slug']=$slug;
         }
+        if(array_key_exists('tags',$form_data)){
+            $post->tags()->sync($form_data['tags']);
+        };
         
         $post->update($form_data);
 
