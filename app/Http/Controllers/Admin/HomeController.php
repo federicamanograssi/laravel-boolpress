@@ -4,11 +4,29 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
+    /**
+     * DIsplay dati profile
+     */
     public function profile(){
         return view('admin.users.profile');
+    }
+
+    /**
+     * Generate API TOKEN
+     */
+
+    public function generateToken(){
+        $api_token = Str::random(80);
+        $user=Auth::user();
+        $user->api_token=$api_token;
+        $user->save();
+        return redirect()->route('admin_profile');
     }
     /**
      * Display a listing of the resource.

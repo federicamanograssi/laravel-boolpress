@@ -41,5 +41,6 @@ Route::prefix('admin')
 ->group(function () {
     Route::get('/', 'HomeController@index')->name('admin_homepage');
     Route::get('/profile', 'HomeController@profile')->name('admin_profile');
+    Route::post('/profile/generate-token', 'HomeController@generateToken')->name('admin_generate_token');
     Route::resource('/posts','PostController');
 });
